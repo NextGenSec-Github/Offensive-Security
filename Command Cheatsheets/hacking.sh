@@ -7,6 +7,9 @@ nmap <server-ip>
 # SSH to server
 ssh username@server
 
+# SSH with stolen private key
+ssh -i my_private_key.pem user@hostname
+
 # gobuster for directory enum
 gobuster dir -u <url> -w <wordlist_file.txt> -x <file_extensions>
 
@@ -63,8 +66,6 @@ chmod +x linpeas.sh
 
 # Tranferring Files
 scp /path/to/local/file username@target-server-ip:/path/to/destination
-
-
 
 
 
