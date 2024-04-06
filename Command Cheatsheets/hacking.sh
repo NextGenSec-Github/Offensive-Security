@@ -61,6 +61,9 @@ export TERM=xterm
 wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh
 chmod +x linpeas.sh
 
+# Tranferring Files
+scp /path/to/local/file username@target-server-ip:/path/to/destination
+
 
 
 
