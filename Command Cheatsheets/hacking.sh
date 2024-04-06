@@ -19,6 +19,9 @@ grep -R .
 # Start listening for connection on port 9999
 nc -lvnp 9999
 
+# Allows for command history when in a reverse shell
+rlwrap nc -lvnp 9999
+
 # Find the ip address of your main nic
 ip addr show eth0
 
@@ -67,7 +70,8 @@ chmod +x linpeas.sh
 # Tranferring Files
 scp /path/to/local/file username@target-server-ip:/path/to/destination
 
-
+# Finds files with the setuid bit set in the entire filesystem, suppresses any error messages, and then lists detailed information about these files.
+find / -perm -4000 2> /dev/null | xargs ls -lah
 
 
 
