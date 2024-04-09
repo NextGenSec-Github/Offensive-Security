@@ -1,6 +1,7 @@
 # =============
 # NMAP Commands
 # =============
+# Nmap is a network scanning tool—an open source Linux command-line tool—used for network exploration, host discovery, and security auditing
 
 # Basic Scanning
 nmap <target-ip>
