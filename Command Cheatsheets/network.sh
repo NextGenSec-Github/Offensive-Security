@@ -41,5 +41,27 @@ traceroute -F google.com
 traceroute -n -A google.com
 
 
+# ================
+# Netstat Commands
+# ================
 
+# Netstat is a command-line network utility that displays network connections for Transmission Control Protocol, routing tables, and a number of network interface and network protocol statistics.
+
+# Display All Active Connections:
+netstat -a
+
+# Display Listening Ports:
+netstat -l
+
+# Display Listening TCP Ports with Numeric Addresses:
+netstat -lt
+
+# Display Listening UDP Ports with Numeric Addresses:
+netstat -lu
+
+# Display PID and Program Name for Each Connection:
+netstat -p
+
+# Display Kernel Routing Table Information:
+netstat -r
 
