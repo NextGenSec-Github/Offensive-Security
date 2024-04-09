@@ -32,6 +32,14 @@ traceroute -p 80 google.com
 # Specifying Source IP Address:
 traceroute -s 192.168.0.1 google.com
 
+traceroute -d google.com
+
+# Setting "Don't Fragment" Flag:
+traceroute -F google.com
+
+# Displaying IP Addresses and AS Numbers:
+traceroute -n -A google.com
+
 
 
 
