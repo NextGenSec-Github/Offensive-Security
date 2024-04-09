@@ -65,3 +65,38 @@ netstat -p
 # Display Kernel Routing Table Information:
 netstat -r
 
+# Display Network Statistics for TCP:
+netstat -st
+
+# Display Network Statistics for UDP:
+netstat -su
+
+# Display Network Interfaces and Their State:
+netstat -i 
+
+# Display Network Services with PID and User:
+netstat -pant
+
+# Display Listening Ports with Process Names:
+netstat -ltp
+
+# Display All TCP Connections with Process Names:
+netstat -atp
+
+# Display All UDP Connections with Process Names:
+netstat -aup
+
+# Display All Established Connections (TCP and UDP):
+netstat -atun
+
+# Display Detailed Statistics for TCP Connections:
+netstat -t -e
+
+# Display Network Interface Statistics Continuously:
+netstat -i 1
+
+
+
+
+
+
