@@ -41,9 +41,9 @@ traceroute -F google.com
 traceroute -n -A google.com
 
 
-# ================
-# Netstat Commands
-# ================
+# =======
+# Netstat 
+# =======
 
 # Netstat is a command-line network utility that displays network connections for Transmission Control Protocol, routing tables, and a number of network interface and network protocol statistics.
 
@@ -94,6 +94,73 @@ netstat -t -e
 
 # Display Network Interface Statistics Continuously:
 netstat -i 1
+
+# =======
+# tcpdump
+# =======
+# TCPDump is a powerful command-line packet analyzer tool.
+
+# Capture Packets on a Specific Interface:
+tcpdump -i eth0
+
+# Capture Packets on a Specific Port:
+tcpdump port 80
+
+# Capture Packets with a Specific Host:
+tcpdump host 192.168.1.100
+
+# Capture Packets with a Specific Protocol:
+tcpdump icmp
+
+# Capture Packets with a Specific Source or Destination:
+tcpdump src 192.168.1.100
+tcpdump dst 192.168.1.200
+
+# Capture Packets with a Specific Protocol and Port:
+tcpdump udp port 53
+
+# Capture Packets with a Specific Size:
+tcpdump less 64
+
+# Capture Packets with a Specific Source Port:
+tcpdump src port 1024
+
+# Capture Packets with a Specific Destination Port:
+tcpdump dst port 22
+
+# Capture Packets with a Specific TCP Flag (e.g., SYN, ACK):
+tcpdump 'tcp[tcpflags] & (tcp-syn|tcp-ack) != 0'
+
+# Capture Packets with a Specific VLAN ID:
+tcpdump vlan 10
+
+# Capture Packets and Display in ASCII:
+tcpdump -A
+
+# Capture Packets and Display in HEX and ASCII:
+tcpdump -X
+
+# Capture Packets and Save to a File:
+tcpdump -w capture.pcap
+
+# Read Packets from a Saved File:
+tcpdump -r capture.pcap
+
+# Capture Packets and Limit the Number of Packets:
+tcpdump -c 100
+
+# Capture Packets and Display Timestamps:
+tcpdump -tttt
+
+# Capture Packets and Resolve IP Addresses to Hostnames:
+tcpdump -n
+
+
+
+
+
+
+
 
 
 
