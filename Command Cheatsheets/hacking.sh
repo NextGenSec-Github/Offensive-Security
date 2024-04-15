@@ -19,6 +19,10 @@ grep -R .
 # Start listening for connection on port 9999
 nc -lvnp 9999
 
+# Banner Grabbing
+nc -vn <IP> 22
+
+
 # Allows for command history when in a reverse shell
 rlwrap nc -lvnp 9999
 
