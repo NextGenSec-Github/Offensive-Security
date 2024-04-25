@@ -77,12 +77,26 @@ brew uninstall <formula>
 brew cleanup #Remove older versions of installed formulae.
 brew cleanup <formula> #Remove older versions of specified formula.
 
+# High privileges actions
+sudo purge #purge RAM
+#Sharing preferences
+sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist (enable ssh)
+sudo launchctl unload /System/Library/LaunchDaemons/ssh.plist (disable ssh)
+#Start apache
+sudo apachectl (start|status|restart|stop)
+ ##Web folder: /Library/WebServer/Documents/
+#Remove DNS cache
+dscacheutil -flushcache
+sudo killall -HUP mDNSResponder
 
 
+# SECURITY
+log show # Show logs
+log show --predicate 'eventMessage contains "error"' --last 1h # Search for error logs within last hour
 
+# Calculating File Hashes with md5, sha1, sha256:
+md5 /path/to/file
+sha1 /path/to/file
+sha256 /path/to/file
 
-
-
-
-
-
+sudo fs_usage # Verifying File System Integrity with fs_usage
