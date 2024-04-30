@@ -63,7 +63,7 @@ tcpdump -c 100 # Capture Packets and Limit the Number of Packets:
 tcpdump -tttt # Capture Packets and Display Timestamps:
 
 # ===
-# DIG
+# Dig
 # ===
 dig google.com # Basic DNS Query
 dig example.com A # Query Specific DNS Record Types
