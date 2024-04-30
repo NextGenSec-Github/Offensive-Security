@@ -1,159 +1,93 @@
 # ==========
 # Traceroute
 # ==========
-
-# Basic Traceroute
-traceroute google.com
-
-# Setting Maximum Hops:
-traceroute -h 20 google.com
-
-# Specifying Number of Queries:
-traceroute -q 5 google.com
-
-# Setting Timeout:
-traceroute -w 2 google.com
-
-# Displaying IP Addresses:
-traceroute -n google.com
-
-# Using ICMP Echo Requests:
-traceroute -I google.com
-
-# Using TCP SYN Packets:
-traceroute -T google.com
-
-# Using UDP Datagrams:
-traceroute -U google.com
-
-# Specifying Destination Port:
-traceroute -p 80 google.com
-
-# Specifying Source IP Address:
-traceroute -s 192.168.0.1 google.com
-
+traceroute google.com # Basic Traceroute
+traceroute -h 20 google.com # Setting Maximum Hops
+traceroute -q 5 google.com # Specifying Number of Queries
+traceroute -w 2 google.com # Setting Timeout
+traceroute -n google.com # Displaying IP Addresses
+traceroute -I google.com # Using ICMP Echo Requests
+traceroute -T google.com # Using TCP SYN Packets
+traceroute -U google.com # Using UDP Datagrams
+traceroute -p 80 google.com # Specifying Destination Port
+traceroute -s 192.168.0.1 google.com # Specifying Source IP Address
 traceroute -d google.com
-
-# Setting "Don't Fragment" Flag:
-traceroute -F google.com
-
-# Displaying IP Addresses and AS Numbers:
-traceroute -n -A google.com
-
+traceroute -F google.com # Setting "Don't Fragment" Flag
+traceroute -n -A google.com # Displaying IP Addresses and AS Numbers
 
 # =======
 # Netstat 
 # =======
-
 # Netstat is a command-line network utility that displays network connections for Transmission Control Protocol, routing tables, and a number of network interface and network protocol statistics.
+netstat -a # Display All Active Connections
+netstat -l # Display Listening Ports
+netstat -lt # Display Listening TCP Ports with Numeric Addresses
+netstat -lu # Display Listening UDP Ports with Numeric Addresses
+netstat -p # Display PID and Program Name for Each Connection
+netstat -r # Display Kernel Routing Table Information
+netstat -st # Display Network Statistics for TCP
+netstat -su # Display Network Statistics for UDP
+netstat -i # Display Network Interfaces and Their State
+netstat -pant # Display Network Services with PID and User
+netstat -ltp # Display Listening Ports with Process Names
+netstat -atp # Display All TCP Connections with Process Names
+netstat -aup # Display All UDP Connections with Process Names
+netstat -atun # Display All Established Connections (TCP and UDP)
+netstat -t -e # Display Detailed Statistics for TCP Connections
+netstat -i 1 # Display Network Interface Statistics Continuously
 
-# Display All Active Connections:
-netstat -a
-
-# Display Listening Ports:
-netstat -l
-
-# Display Listening TCP Ports with Numeric Addresses:
-netstat -lt
-
-# Display Listening UDP Ports with Numeric Addresses:
-netstat -lu
-
-# Display PID and Program Name for Each Connection:
-netstat -p
-
-# Display Kernel Routing Table Information:
-netstat -r
-
-# Display Network Statistics for TCP:
-netstat -st
-
-# Display Network Statistics for UDP:
-netstat -su
-
-# Display Network Interfaces and Their State:
-netstat -i 
-
-# Display Network Services with PID and User:
-netstat -pant
-
-# Display Listening Ports with Process Names:
-netstat -ltp
-
-# Display All TCP Connections with Process Names:
-netstat -atp
-
-# Display All UDP Connections with Process Names:
-netstat -aup
-
-# Display All Established Connections (TCP and UDP):
-netstat -atun
-
-# Display Detailed Statistics for TCP Connections:
-netstat -t -e
-
-# Display Network Interface Statistics Continuously:
-netstat -i 1
 
 # =======
 # tcpdump
 # =======
 # TCPDump is a powerful command-line packet analyzer tool.
 
-# Capture Packets on a Specific Interface:
-tcpdump -i eth0
+# Capture Packets on a Specific Interface
+tcpdump -i eth0 # Capture Packets on a Specific Interface
+tcpdump port 80 # Capture Packets on a Specific Port
+tcpdump host 192.168.1.100 # Capture Packets with a Specific Host
+tcpdump icmp # Capture Packets with a Specific Protocol
+tcpdump src 192.168.1.100 # Capture Packets with a Specific Source
+tcpdump dst 192.168.1.200 # Capture Packets with a Specific Destination
+tcpdump udp port 53 # Capture Packets with a Specific Protocol and Port
+tcpdump less 64 # Capture Packets with a Specific Size:
+tcpdump src port 1024 # Capture Packets with a Specific Source Port
+tcpdump dst port 22 # Capture Packets with a Specific Destination Port
+tcpdump 'tcp[tcpflags] & (tcp-syn|tcp-ack) != 0' # Capture Packets with a Specific TCP Flag (e.g., SYN, ACK)
+tcpdump vlan 10 # Capture Packets with a Specific VLAN ID
+tcpdump -A # Capture Packets and Display in ASCII:
+tcpdump -X # Capture Packets and Display in HEX and ASCII:
+tcpdump -w capture.pcap # Capture Packets and Save to a File:
+tcpdump -r capture.pcap # Read Packets from a Saved File:
+tcpdump -c 100 # Capture Packets and Limit the Number of Packets:
+tcpdump -tttt # Capture Packets and Display Timestamps:
 
-# Capture Packets on a Specific Port:
-tcpdump port 80
+# ===
+# DIG
+# ===
+dig google.com # Basic DNS Query
+dig example.com A # Query Specific DNS Record Types
+dig -x 8.8.8.8 # Reverse DNS Lookup
+dig example.com @dns-server-ip # Querying a Specific DNS Server
+dig +short example.com # Displaying Additional Information
+dig +trace example.com # Trace DNS Delegation
+dig +dnssec example.com # Checking DNSSEC Information
+dig A google.com +nocmd +noall +answer +ttlid # Checking Time to Live (TTL) of DNS Records
+dig example.com ANY # Querying Multiple DNS Records
+dig @dns-server-ip -b source-ip example.com # Performing a DNS Query with Specific Source IP
+dig MX apple.com +short # Email Servers Responsible for a Domain
+dig A cyberciti.biz @1.1.1.1 +short # Finding out DNS answers from specific cache resolver
+dig nixcraft.com +nssearch # Finding if a zone is synchronized with all authoritative name servers (look for serial number)
+dig TXT o-o.myaddr.l.google.com @ns1.google.com +short # What is my public IPv4 or IPv6 address?
 
-# Capture Packets with a Specific Host:
-tcpdump host 192.168.1.100
-
-# Capture Packets with a Specific Protocol:
-tcpdump icmp
-
-# Capture Packets with a Specific Source or Destination:
-tcpdump src 192.168.1.100
-tcpdump dst 192.168.1.200
-
-# Capture Packets with a Specific Protocol and Port:
-tcpdump udp port 53
-
-# Capture Packets with a Specific Size:
-tcpdump less 64
-
-# Capture Packets with a Specific Source Port:
-tcpdump src port 1024
-
-# Capture Packets with a Specific Destination Port:
-tcpdump dst port 22
-
-# Capture Packets with a Specific TCP Flag (e.g., SYN, ACK):
-tcpdump 'tcp[tcpflags] & (tcp-syn|tcp-ack) != 0'
-
-# Capture Packets with a Specific VLAN ID:
-tcpdump vlan 10
-
-# Capture Packets and Display in ASCII:
-tcpdump -A
-
-# Capture Packets and Display in HEX and ASCII:
-tcpdump -X
-
-# Capture Packets and Save to a File:
-tcpdump -w capture.pcap
-
-# Read Packets from a Saved File:
-tcpdump -r capture.pcap
-
-# Capture Packets and Limit the Number of Packets:
-tcpdump -c 100
-
-# Capture Packets and Display Timestamps:
-tcpdump -tttt
-
-# Capture Packets and Resolve IP Addresses to Hostnames:
-tcpdump -n
+# Dig Batch Query
+# Make a file and enter the domains you'd like to dig into
+nano domain_names.txt
+google.com
+meta.com
+netflix.com
+# Batch Query the Domains with the file passed as a parameter
+dig -f domain_name.txt +short
 
 
 # ===============
