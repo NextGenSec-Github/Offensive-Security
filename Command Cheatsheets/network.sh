@@ -89,6 +89,14 @@ netflix.com
 # Batch Query the Domains with the file passed as a parameter
 dig -f domain_name.txt +short
 
+# ======
+# Netcat
+# ======
+# Netcat (often abbreviated to nc) is a computer networking utility for reading from and writing to network connections using TCP or UDP
+
+nc [TargetIPaddr] [port] # Fundamental Netcat Client
+nc -lvnp [LocalPort] # Fundamental Netcat Listener
+
 
 # ===============
 # NETWORK ATTACKS
