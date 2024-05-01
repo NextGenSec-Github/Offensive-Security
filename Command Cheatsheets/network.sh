@@ -1,3 +1,17 @@
+# ========
+# ipconfig (Windows)
+# ========
+ipconfig /all # Display full configuration informatio
+ipconfig /release [adapter] # Release the IPv4 address for the specified adapter.
+ipconfig /release6 [adapter] # Release the IPv6 address for the selected adapter.
+ipconfig /renew [adapter] # Renew the IPv4 address for the specified adapter.
+ipconfig /renew6 [adapter] # Renew the IPv6 address for the specified adapter.
+ipconfig /displaydns # Display the contents of the DNS Resolver Cache.
+ipconfig /flushdns # Purges the DNS Resolver cache.
+ipconfig /registerdns # Refreshes all DHCP leases and re-registers DNS names.
+ipconfig /showclassid [adapter]	# Displays all the DHCP class IDs allowed for the adapter.
+pconfig /setclassid [adapter] [ClassID] # Modifies the DHCP class id.
+
 # ==========
 # Traceroute
 # ==========
