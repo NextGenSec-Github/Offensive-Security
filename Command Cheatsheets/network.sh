@@ -103,6 +103,19 @@ netflix.com
 # Batch Query the Domains with the file passed as a parameter
 dig -f domain_name.txt +short
 
+# ========
+# nslookup
+# ========
+# NSLOOKUP (Name Server Lookup) is a powerful command-line tool used for querying Domain Name System (DNS) servers to obtain domain name or IP address mapping, as well as other DNS-related information. 
+nslookup [domain_name] # Basic Query
+nslookup [IP_address] # Reverse DNS lookup
+set type=[record_type] # Specify DNS Record to Query
+set querytype=[record_type] # Sets the query type for subsequent queries.
+server [DNS_server] # Specify a particular DNS server to query.
+ls [domain_name] # Performs a zone transfer for the specified domain name, listing all the DNS records for that domain
+set debug # Enable Debugging mode
+set timeout=[seconds] # Sets the timeout for DNS queries
+ 
 # ======
 # Netcat
 # ======
