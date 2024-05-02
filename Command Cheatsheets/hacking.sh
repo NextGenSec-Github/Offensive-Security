@@ -30,4 +30,47 @@ nmap -R [target] # Force reverse DNS resolution
 nmap -n [target] # Disable reverse DNS resolution	
 nmap –dns-servers [servers] [target # Alternative DNS lookup
 nmap -sL [targets] # Create a host list
+# More Complex
+nmap -sC -sV -oN normal.txt target-ip # Enumerate services and use default scripts
+nmap -p- -oN all_ports.txt target-ip # Scan all tcp ports
+nmap -p- -sU -oN all_udp_ports.txt target-ip # Scan all udp ports
+ls -lh /usr/share/nmap/scripts/ # List all nse scripts
+nmap --proxies socks4://proxy-ip:1080 target-ip # Nmap through socks4 proxy
+nmap -P0 -n -b username:password@target-ip target2-ip --proxies socks4://proxy-ip:1080 -vvvv # Ftp bounce scan
+
+# ========
+# Gobuster
+# ========
+gobuster dir -u http://target-ip -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x php,txt -t 3 # Bruteforce webdirectories and files by extention
+
+# =====
+# Wfuzz
+# =====
+wfuzz -u http://target-ip/path/index.php?param=FUZZ -w /usr/share/wordlists/rockyou.txt # Bruteforce web parameter
+wfuzz -u http://target-ip/path/index.php?action=authenticate -d 'username=admin&password=FUZZ' -w /usr/share/wordlists/rockyou.txt # Brute force POST login
+
+# ====
+# ffuf
+# ====
+ffuf -w /path/to/wordlist -u https://target/FUZZ # Brute force web directories
+
+# =======
+# davtest
+# =======
+davtest -url http://target-ip/ -sendbd auto # Tries to upload (executable) files to webdav
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
