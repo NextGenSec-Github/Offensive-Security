@@ -12,6 +12,24 @@ ipconfig /registerdns # Refreshes all DHCP leases and re-registers DNS names.
 ipconfig /showclassid [adapter]	# Displays all the DHCP class IDs allowed for the adapter.
 pconfig /setclassid [adapter] [ClassID] # Modifies the DHCP class id.
 
+# ===
+# SSH
+# ===
+ssh root@192.168.1.5 # Connect on default port 22
+ssh root@192.168.1.5 -p 6222 # Connect on a specific port
+ssh -i /path/file.pem root@192.168.1.5 # Conncect via pem file
+ssh root@192.168.1.5 'ls -l' # Execute a remote command
+ssh root@192.168.1.5 bash < script.sh # Invoke a local script
+ssh root@192.168.1.5 "tar cvzf - ~/source" > output.tgz # Compresses and downloads from a server
+
+# SSH Config Locations
+/etc/ssh/ssh_config	# System-wide config
+~/.ssh/config	# User-specific config
+~/.ssh/id_{type}	# Private key
+~/.ssh/id_{type}.pub	# Public key
+~/.ssh/known_hosts	# Logged in host
+
+
 # ==========
 # Traceroute
 # ==========
