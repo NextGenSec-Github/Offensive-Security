@@ -28,7 +28,7 @@ ssh root@192.168.1.5 "tar cvzf - ~/source" > output.tgz # Compresses and downloa
 ~/.ssh/id_{type}	# Private key
 ~/.ssh/id_{type}.pub	# Public key
 ~/.ssh/known_hosts	# Logged in host
-
+~/.ssh/authorized_keys	# Authorized Keys
 
 # ==========
 # Traceroute
