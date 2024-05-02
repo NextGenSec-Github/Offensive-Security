@@ -21,6 +21,17 @@ ssh -i /path/file.pem root@192.168.1.5 # Conncect via pem file
 ssh root@192.168.1.5 'ls -l' # Execute a remote command
 ssh root@192.168.1.5 bash < script.sh # Invoke a local script
 ssh root@192.168.1.5 "tar cvzf - ~/source" > output.tgz # Compresses and downloads from a server
+ssh -J proxy_host1 remote_host2 # Proxy jump
+ssh -J user@proxy_host1:port1,user@proxy_host2:port2 user@remote_host3 # Multiple proxy jumps
+
+# SSH KeyGen
+# NOTE: SSH key types: rsa, ed25519, dsa, ecdsa
+ssh-keygen # Generate a new key
+ssh-keygen -f ~/.ssh/filename # Specify a filename
+ssh-keygen -y -f private.key > public.pub # Generate a public key from a private key
+ssh-keygen -p -f ~/.ssh/id_rsa # Change private key passphrase
+ssh-keygen -t rsa -b 4096 -C "your@mail.com" # -t Type of key, -b The number of bits in the key, -C	Provides a new comment
+ssh-keygen -R <ip/hostname> # Removes the entry for the specified <ip/hostname> from the known_hosts file
 
 # SSH Config Locations
 /etc/ssh/ssh_config	# System-wide config
@@ -29,6 +40,21 @@ ssh root@192.168.1.5 "tar cvzf - ~/source" > output.tgz # Compresses and downloa
 ~/.ssh/id_{type}.pub	# Public key
 ~/.ssh/known_hosts	# Logged in host
 ~/.ssh/authorized_keys	# Authorized Keys
+
+# SCP
+scp user@server:/dir/file.ext dest/ # Copies from remote to local
+scp user@server:/file user@server:/dir # Copies between two servers
+scp dest/file.ext user@server:/dir # Copies from local to remote
+scp -r user@server:/dir dest/ # Copies a whole folder
+scp user@server:/dir/* dest/ # Copies all files from a folder
+scp user@server:/dir/* . # Copies from a server folder to the current folder
+
+# SFTP
+sftp username@hostname # Connect and initiate an SFTP Session
+put local_file remote_path # Upload local files to remote host
+get remote_file local_path # Download files from remote host
+ls [remote_path] # Lists remote host directory contents
+cd remote_directory # Change directories in remote host
 
 # ==========
 # Traceroute
