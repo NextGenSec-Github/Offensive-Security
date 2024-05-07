@@ -15,6 +15,7 @@ nmap -A [target] # Aggressive Scanning
 nmap -6 [target] # Scan an IPv6 target
 # DISCOVERY OPTIONS
 nmap -sP [target] # Perform a ping scan
+nmap -sN [target] # Performs Stealth scan with tcp headers set to "Null"
 nmap -PN [target] # Dont ping
 nmap -PS [target] # TCP SYN ping
 nmap -PA [target] # TCP ACK ping
@@ -43,6 +44,12 @@ nmap -sV -sC -O -p- -n -Pn -oA fullscan <IP> # # Nmap fast scan for all the port
 nmap -sU -sV --version-intensity 0 -n -F -T4 <IP> # # Nmap fast check if any of the 100 most common UDP services is running
 nmap -sU -sV -sC -n -F -T4 <IP> # # Nmap check if any of the 100 most common UDP services is running and launch defaults scripts
 
+# =====
+# Hydra
+# =====
+hydra -l name -P rockyou.txt ftp://<target>:21 -v
+
+
 # =========
 # Bettercap
 # =========
@@ -63,6 +70,15 @@ wfuzz -u http://target-ip/path/index.php?action=authenticate -d 'username=admin&
 # ffuf
 # ====
 ffuf -w /path/to/wordlist -u https://target/FUZZ # Brute force web directories
+
+# =============
+# Random Server
+# =============
+curl -I <URL> | grep Server # Server HTTP Header
+nc <IP> 22 # Grab SSH Header
+nmap -sV -p <port_number> <hostname or IP address>
+
+
 
 # =======
 # davtest
