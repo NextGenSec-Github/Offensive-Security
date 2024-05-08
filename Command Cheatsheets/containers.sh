@@ -26,7 +26,7 @@ docker run -it --memory="20m" mycontainer # Running container with allocated mem
 docker update --memory="40m" mycontainer # Updating container with allocated memory
 docker inspect containername # View information about a container (including the resource limits set). If a resource limit is set to 0, this means that no resource limits have been set.
 
-# Security
+# SECURITY
 docker context create --docker host=ssh://myuser@remotehost --description="Development Environment" development-environment-host # Create a context
 docker context use development-environment-host # Use specificed context
 docker context use default # Switch back to default context
@@ -44,6 +44,12 @@ docker run --rm -it --security-opt seccomp=/home/cmnatic/container1/seccomp/prof
 sudo apparmor_parser -r -W /home/cmnatic/container1/apparmor/profile.json # Importing our AppArmor profile into AppArmor
 docker run --rm -it --security-opt apparmor=/home/cmnatic/container1/apparmor/profile.json mycontainer # Applying our AppArmor profile when running a container
 
+# Docker Scout
+docker scout cves local://nginx:latest # Using Docker Scout to scan our "nginx" image for vulnerabilities
+
+# Grype: Grype can be used to analyse Docker images and container filesystems
+grype imagename --scope all-layers # Scan a docker image for vulnerabilties
+grype /path/to/image.tar # Scan an exported container filesystem
 
 # ====================
 # ATTACKING CONTAINERS
