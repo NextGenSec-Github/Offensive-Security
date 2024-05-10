@@ -159,6 +159,28 @@ server [DNS_server] # Specify a particular DNS server to query.
 ls [domain_name] # Performs a zone transfer for the specified domain name, listing all the DNS records for that domain
 set debug # Enable Debugging mode
 set timeout=[seconds] # Sets the timeout for DNS queries
+
+# ====
+# Nmap
+# ====
+nmap -iL list_of_hosts.txt. # Scan a list of hosts from a file
+nmap -sL -n 10.10.12.13/29. # List the IP addresses in the specified range without actually probing them for open ports, and it will skip DNS resolution for those addresses
+nmap -PR -sn <TARGETS># ARP scan without port-scanning. -PR indicates only ARP scan
+sudo nmap -PE -sn 10.10.68.220/24
+sudo nmap -PP -sn 10.10.68.220/24
+sudo nmap -PM -sn 10.10.68.220/24
+sudo nmap -PP -sn 10.10.68.220/24
+nmap -PS -sn MACHINE_IP/24 # TCP Syn Ping
+sudo nmap -PA -sn MACHINE_IP/24 # TCP ACK Ping
+sudo nmap -PU -sn 10.10.68.220/24 # UDP Ping Scan
+
+# Arp-Scan
+# Send ARP queries to all valid IP addresses on your local networks
+arp-scan -l 
+arp-scan --localnet
+arp-scan -I eth0 -l # Send ARP queries for all valid IP addresses on the eth0 interface
+
+# Masscan
  
 # ======
 # Netcat
