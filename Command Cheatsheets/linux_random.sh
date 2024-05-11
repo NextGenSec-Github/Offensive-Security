@@ -49,6 +49,6 @@ sudo cat /home/jane/.bash_history | grep -B 2 -A 2 "python" # Correlating SUID A
 md5sum /var/tmp/bash # Integrity Checking the Suspicious SUID Binary
 sudo chkrootkit # chkrootkit for first-base rootkit checking
 sudo rkhunter -c -sk # More in-depth rootkit analysis with malicious hash database
-
+exiftool -all= filename.pdf # Metadata Stripping
 
 
