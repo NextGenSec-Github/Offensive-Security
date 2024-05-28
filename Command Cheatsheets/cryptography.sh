@@ -26,3 +26,6 @@ shasum -a <algorithm> <file1> <file2> # Multiple Files Hashing
 shasum -a <algorithm> -b <filename> # Output Only the Hash Value
 
 (Get-FileHa3p4sh -Algorithm SHA512 ’<filename>’).hash | clip # Powershell: This command generates and copies the hash directly to your clipboard.
+
+
+# Random
