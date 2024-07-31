@@ -182,6 +182,17 @@ sudo nmap -PP -sn 10.10.68.220/24
 nmap -PS -sn MACHINE_IP/24 # TCP Syn Ping
 sudo nmap -PA -sn MACHINE_IP/24 # TCP ACK Ping
 sudo nmap -PU -sn 10.10.68.220/24 # UDP Ping Scan
+nmap -S SPOOFED_IP <target> # Spoofing IP Address
+nmap -e NET_INTERFACE -Pn -S SPOOFED_IP 10.10.27.126 # Spoofing IP with specific NetIf and disabling Ping Scan
+nmap --spoof-mac SPOOFED_MAC <target> # Spoofing MAC Address
+nmap -D 10.10.0.1,10.10.0.2,ME <target> # Multiple Decoys 
+sudo nmap -sS -p80 -f 10.20.30.144 # -f for packet fragementation
+nmap -sI ZOMBIE_IP <target> # Idle/Zombie Scanning
+sudo nmap -sS --reason 10.10.252.27 # More Details for scan responses
+sudo nmap -sS -vv 10.10.252.27 # Verbose Scan Output
+sudo nmap -sS -d 10.10.252.27 # For Debugging details
+sudo nmap -sS -dd 10.10.252.27 # More Details
+
 
 # Arp-Scan
 # Send ARP queries to all valid IP addresses on your local networks
