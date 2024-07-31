@@ -163,6 +163,15 @@ set timeout=[seconds] # Sets the timeout for DNS queries
 # ====
 # Nmap
 # ====
+nmap -sT <Target> # TCP Connect Scan
+nmap -sS <Target> # TCP SYN Scan 
+nmap -sA <Target> # TCP ACK Scan
+nmap -sU <Target> # UDP Scan
+nmap -sF <Target> # FIN Scan
+nmap -sN <Target> # NULL Scan
+nmap -sW <Target> # Windows Scan
+nmap -sX <Target> # Xmas Scan
+nmap -sM <Target> # Maimon Scan
 nmap -iL list_of_hosts.txt. # Scan a list of hosts from a file
 nmap -sL -n 10.10.12.13/29. # List the IP addresses in the specified range without actually probing them for open ports, and it will skip DNS resolution for those addresses
 nmap -PR -sn <TARGETS># ARP scan without port-scanning. -PR indicates only ARP scan
