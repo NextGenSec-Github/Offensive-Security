@@ -172,6 +172,11 @@ nmap -sN <Target> # NULL Scan
 nmap -sW <Target> # Windows Scan
 nmap -sX <Target> # Xmas Scan
 nmap -sM <Target> # Maimon Scan
+nmap -sV <Target> # Service and Version Scan
+nmap -sS -O <Target> # -O for OS Detection
+nmap -sS --traceroute <Target> # Scan with traceroute results appended
+nmap -sC <Target> # Default NSE Script
+nmap --script "nse-script" <Target> # Scan with specified nse script
 nmap -iL list_of_hosts.txt. # Scan a list of hosts from a file
 nmap -sL -n 10.10.12.13/29. # List the IP addresses in the specified range without actually probing them for open ports, and it will skip DNS resolution for those addresses
 nmap -PR -sn <TARGETS># ARP scan without port-scanning. -PR indicates only ARP scan
