@@ -26,7 +26,7 @@ db_connect # Connect to the Database:
 db_nmap <target> # Store results in the database
 hosts # View stored hosts
 services # View stored services
-
+search portscan # List port scanning modules
 
 
 
