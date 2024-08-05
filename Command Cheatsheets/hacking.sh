@@ -26,6 +26,13 @@ nmap -p 1-65535 -T4 -A -v <IP>
 nmap -p 445 --script=smb-enum-shares.nse,smb-enum-users.nse <IP> # Enumerating SMB Shares
 nmap -p 111 --script=nfs-ls,nfs-statfs,nfs-showmount <IP>
 
+#Searchsploit tricks
+searchsploit "linux Kernel" #Example
+searchsploit apache mod_ssl #Other example
+searchsploit -m 7618 #Paste the exploit in current directory
+searchsploit -p 7618[.c] #Show complete path
+searchsploit -x 7618[.c] #Open vi to inspect the exploit
+searchsploit --nmap file.xml #Search vulns inside an nmap xml result
 
 # =====
 # Nikto
