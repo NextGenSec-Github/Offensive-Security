@@ -21,6 +21,11 @@ nmap -sV -sC -O -T4 -n -Pn -p- -oA fullfastscan <IP> # Nmap fast scan for all th
 nmap -sV -sC -O -p- -n -Pn -oA fullscan <IP> # # Nmap fast scan for all the ports slower to avoid failures due to -T4
 nmap -sU -sV --version-intensity 0 -n -F -T4 <IP> # # Nmap fast check if any of the 100 most common UDP services is running
 nmap -sU -sV -sC -n -F -T4 <IP> # # Nmap check if any of the 100 most common UDP services is running and launch defaults scripts
+nmap <IP> --top-ports 10 --open # Quick Scan
+nmap -p 1-65535 -T4 -A -v <IP>
+nmap -p 445 --script=smb-enum-shares.nse,smb-enum-users.nse <IP> # Enumerating SMB Shares
+nmap -p 111 --script=nfs-ls,nfs-statfs,nfs-showmount <IP>
+
 
 # =====
 # Nikto
