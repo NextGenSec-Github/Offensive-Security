@@ -23,18 +23,6 @@ date 2>/dev/null # Date
 lscpu # CPU info
 lpstat -a 2>/dev/null # Printers info
 
-# Enumerating Possible Defenses
-# AppArmor
-if [ `which aa-status 2>/dev/null` ]; then
-    aa-status
-  elif [ `which apparmor_status 2>/dev/null` ]; then
-    apparmor_status
-  elif [ `ls -d /etc/apparmor* 2>/dev/null` ]; then
-    ls -d /etc/apparmor*
-  else
-    echo "Not found AppArmor"
-fi
-
 ((uname -r | grep "\-grsec" >/dev/null 2>&1 || grep "grsecurity" /etc/sysctl.conf >/dev/null 2>&1) && echo "Yes" || echo "Not found grsecurity") # Grsecurity
 (which paxctl-ng paxctl >/dev/null 2>&1 && echo "Yes" || echo "Not found PaX") # Pax
 (grep "exec-shield" /etc/sysctl.conf || echo "Not found Execshield") # Execshield
