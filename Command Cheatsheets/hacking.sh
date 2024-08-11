@@ -322,6 +322,8 @@ powershell%20-c%20%22%24client%20%3D%20New-Object%20System.Net.Sockets.TCPClient
 openssl passwd -1 -salt <password>
 
 
+nmap -sV -sC -O -n -oA nmapscan <IP>
+
 
 
 
