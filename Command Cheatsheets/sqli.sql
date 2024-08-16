@@ -7,7 +7,7 @@ SELECT * FROM information_schema.tables -- Listing tables in a database
 SELECT * FROM information_schema.columns WHERE table_name = 'Users' -- Listing data from specific tables
 
 
-
+' UNION SELECT NULL FROM DUAL--
 
 
 
